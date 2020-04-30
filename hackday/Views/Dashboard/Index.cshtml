@@ -5,7 +5,10 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<h1>Cheching ajax</h1>
+<button class="btn btn-primary" id="addCourse">Add course</button>
+
+
+
 
 
 <script src="https://code.jquery.com/jquery-2.2.4.js"
@@ -14,17 +17,26 @@
 
 <script>
     $(document).ready(function () {
+        $("#addCourse").on('click', function () {
+            location.href = '/Dashboard/addcourse';
+        });
+        
+    });
+
+
+    function loadAllCources() {
         $.ajax({
             url: "/Dashboard/GetAllCourses",
             type: "GET",
             success: function (result) {
-                if (Array.isArray(result) && result.length > 0) {
-                    console.log('data', result);
-                }
+                console.log('data', result);
+                //if (Array.isArray(result) && result.length > 0) {
+                //    console.log('data', result);
+                //}
             },
             error: function (err) {
                 console.log('Error', err);
             }
         });
-    });
+    };
 </script>
