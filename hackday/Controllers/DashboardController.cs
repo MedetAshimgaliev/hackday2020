@@ -29,12 +29,11 @@ namespace hackday.Controllers
         [HttpGet]
         public JsonResult GetAllCourses()
         {
-            //List<Course> list = new List<Course>();
-            
+            List<Course> list = new List<Course>();
+
             using (var entities = new ApplicationDbContext())
             {
-                //list = entities.Course.Where(c => c.DeletedDate == null).ToList();
-                var list = entities.Course.ToList();
+                list = entities.Course.Where(c => c.DeletedDate == null).ToList();
                 return Json(list);
             }
         }
@@ -56,6 +55,7 @@ namespace hackday.Controllers
                         edit.CreatedDate = DateTime.Now;
                     }
 
+                    
                     edit.Title = item.Title;
                     edit.Description = item.Description;
 
