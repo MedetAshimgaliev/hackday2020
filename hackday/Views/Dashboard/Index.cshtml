@@ -21,7 +21,7 @@ else
             <div class="card-body">
                 <h5 class="card-title">@course.Title</h5>
                 <p class="card-text">@course.Description</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="CourseDetails/@course.CourseId" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
     }
@@ -37,27 +37,9 @@ else
 
 <script>
     $(document).ready(function () {
-        loadAllCources();
         $("#addCourse").on('click', function () {
             location.href = '/Dashboard/addcourse';
         });
 
     });
-
-
-    function loadAllCources() {
-        $.ajax({
-            url: "/Dashboard/GetAllCourses",
-            type: "GET",
-            success: function (result) {
-                console.log('data', result);
-                //if (Array.isArray(result) && result.length > 0) {
-                //    console.log('data', result);
-                //}
-            },
-            error: function (err) {
-                console.log('Error', err);
-            }
-        });
-    };
 </script>

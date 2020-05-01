@@ -23,6 +23,18 @@ namespace hackday.Controllers
             return View(list);
         }
 
+        public IActionResult CourseDetails(long id)
+        {
+            var entities = new ApplicationDbContext();
+            var Course = entities.Course.Where(c => c.DeletedDate == null && c.CourseId == id).FirstOrDefault();
+            return View(Course);
+        }
+
+        public IActionResult AddLesson()
+        {
+            return View();
+        }
+
         public IActionResult AddCourse()
         {
             return View();
@@ -41,7 +53,7 @@ namespace hackday.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveCourse(CreateCourse item)
+        public async Task<IActionResult> SaveCourse(CreateCourse item)
         {
             try
             {
@@ -62,7 +74,7 @@ namespace hackday.Controllers
                     entities.Course.Add(edit);
                     await entities.SaveChangesAsync();
                 }
-                return Json("done");
+                return RedirectToAction("CourseDetails", new { id = item.CourseId });
             }
             catch
             {
