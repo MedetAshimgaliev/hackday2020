@@ -5,9 +5,9 @@
     <UserSecretsId>aspnet-hackday-AE6B5235-CB18-4FE2-8BB0-F8EC2422A801</UserSecretsId>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <Compile Remove="Data\Migrations\20200430183131_FileUpload.cs" />
+    <Compile Remove="Data\Migrations\20200430183131_FileUpload.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,5 +21,6 @@
   <ItemGroup>
     <Folder Include="Views\Course\" />
     <Folder Include="Views\Dashboard\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 </Project>

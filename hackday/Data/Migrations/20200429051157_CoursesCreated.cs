@@ -15,6 +15,7 @@ namespace hackday.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(maxLength: 500, nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     DeletedDate = table.Column<DateTime>(nullable: false)
                 },

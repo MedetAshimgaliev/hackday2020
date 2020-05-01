@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using hackday.Models;
 using hackday.Data;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,12 +15,12 @@ namespace hackday.Controllers
 {
     public class DashboardController : Controller
     {
-        
-
-        // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
+            List<Course> list = new List<Course>();
+            var entities = new ApplicationDbContext();
+            list = entities.Course.Where(c => c.DeletedDate == null).ToList();
+            return View(list);
         }
 
         public IActionResult AddCourse()
@@ -39,7 +41,7 @@ namespace hackday.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveCourse(Course item)
+        public async Task<JsonResult> SaveCourse(CreateCourse item)
         {
             try
             {
@@ -54,15 +56,12 @@ namespace hackday.Controllers
                     {
                         edit.CreatedDate = DateTime.Now;
                     }
-
-                    
                     edit.Title = item.Title;
                     edit.Description = item.Description;
-
+                    edit.ImageUrl = UploadImage(item.Image);
                     entities.Course.Add(edit);
                     await entities.SaveChangesAsync();
                 }
-
                 return Json("done");
             }
             catch
@@ -71,7 +70,34 @@ namespace hackday.Controllers
             }
         }
 
+        [HttpPost]
+        public string UploadImage(IFormFile image)
+        {
+            string SavePath = "";
+            string ImageName = "";
+            if (image != null)
+            {
+                ImageName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", ImageName);
+                using (var stream = new FileStream(SavePath, FileMode.Create))
+                {
+                    image.CopyTo(stream);
+                }
+            }
+            return ImageName;
+        }
 
-        
+    }
+
+
+
+    public class CreateCourse
+    {
+        public long CourseId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public IFormFile Image { get; set; }
+        public DateTime CreatedDate { get; set; }
+
     }
 }

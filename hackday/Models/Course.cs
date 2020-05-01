@@ -11,6 +11,8 @@ namespace hackday.Models
         [MaxLength(500)]
         public string Description { get; set; }
 
+        public string ImageUrl { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime CreatedDate { get; set; }
 
