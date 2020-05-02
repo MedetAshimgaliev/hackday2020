@@ -30,6 +30,13 @@ namespace hackday.Controllers
             return View(Course);
         }
 
+        public IActionResult LessonDetails(long lessonId)
+        {
+            var entities = new ApplicationDbContext();
+            var lesson = entities.Lesson.Where(l => l.DeletedDate == null && l.LessonId == lessonId).FirstOrDefault();
+            return View(lesson);
+        }
+
         public IActionResult AddLesson(long id)
         {
             ViewBag.CourseID = id;
@@ -51,6 +58,14 @@ namespace hackday.Controllers
                 list = entities.Course.Where(c => c.DeletedDate == null).ToList();
                 return Json(list);
             }
+        }
+
+        [HttpGet]
+        public JsonResult GetLessons(long courseId)
+        {
+            var entities = new ApplicationDbContext();
+            var lessons = entities.Lesson.Where(l => l.DeletedDate == null & l.CourseId == courseId);
+            return Json(lessons);
         }
 
         [HttpPost]
