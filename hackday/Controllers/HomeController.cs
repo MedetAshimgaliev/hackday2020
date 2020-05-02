@@ -20,7 +20,16 @@ namespace hackday.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+
+                //return Redirect("Identity/Account/Login");
+                return RedirectToAction("index","dashboard");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public IActionResult Privacy()

@@ -30,9 +30,10 @@ namespace hackday.Controllers
             return View(Course);
         }
 
-        public IActionResult AddLesson()
+        public IActionResult AddLesson(long id)
         {
-            return View();
+            ViewBag.CourseID = id;
+            return PartialView();
         }
 
         public IActionResult AddCourse()
@@ -74,6 +75,40 @@ namespace hackday.Controllers
                     entities.Course.Add(edit);
                     await entities.SaveChangesAsync();
                 }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return Json("error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveLesson(CreateLesson item)
+        {
+            try
+            {
+                Lesson edit = new Lesson();
+                using (var entities = new ApplicationDbContext())
+                {
+                    if (item.LessonId > 0)
+                    {
+                        edit = await entities.Lesson.FirstOrDefaultAsync(l => l.DeletedDate == null && l.LessonId == item.LessonId);
+                    }
+                    else
+                    {
+                        edit.CreatedDate = DateTime.Now;
+                    }
+
+                    edit.CourseId = item.CourseId;
+                    edit.Title = item.Title;
+                    edit.Content = item.Content;
+                    edit.Description = item.Description;
+                    edit.FileLink = item.FileLink;
+                    edit.VideoLink = item.VideoLink;
+                    entities.Lesson.Add(edit);
+                    await entities.SaveChangesAsync();
+                }
                 return RedirectToAction("CourseDetails", new { id = item.CourseId });
             }
             catch
@@ -111,5 +146,17 @@ namespace hackday.Controllers
         public IFormFile Image { get; set; }
         public DateTime CreatedDate { get; set; }
 
+    }
+
+    public class CreateLesson
+    {
+        public long LessonId { get; set; }
+        public long CourseId { get; set; }
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public string Description { get; set; }        
+        public string FileLink { get; set; }
+        public string VideoLink { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

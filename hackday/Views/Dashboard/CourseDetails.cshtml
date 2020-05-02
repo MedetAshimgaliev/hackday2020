@@ -7,16 +7,31 @@
 
 <button class="btn btn-primary" id="addLesson">Add Lesson</button>
 
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
 
 <script src="https://code.jquery.com/jquery-2.2.4.js"
         integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
         crossorigin="anonymous"></script>
 
-<script>
-    $(document).ready(function () {
-        $("#addLesson").on('click', function () {
-            location.href = '/Dashboard/AddLesson';
-        });
-
+<script>    
+    $(function () {  
+        $("#addLesson").click(function () {  
+            var $buttonClicked = $(this);  
+            var id = @Model.CourseId;  
+            //var options = { "backdrop": "static", keyboard: true };  
+            $.ajax({  
+                type: "GET",
+                url: '/Dashboard/AddLesson?id=' + id,  
+                success: function (data) {  
+                    debugger;  
+                    $('#exampleModalCenter').html(data);  
+                    //$('#exampleModalCenter').modal(options);  
+                    $('#exampleModalCenter').modal('show');                    
+                },  
+                error: function () {  
+                    alert("Dynamic content load failed.");  
+                }  
+            });  
+        });  
     });
 </script>
