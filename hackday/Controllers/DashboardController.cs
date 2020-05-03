@@ -8,6 +8,7 @@ using hackday.Data;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,6 +18,7 @@ namespace hackday.Controllers
     {
         public IActionResult Index()
         {
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<Course> list = new List<Course>();
             var entities = new ApplicationDbContext();
             list = entities.Course.Where(c => c.DeletedDate == null).ToList();

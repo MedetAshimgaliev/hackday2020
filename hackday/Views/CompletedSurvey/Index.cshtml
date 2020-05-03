@@ -1,6 +1,7 @@
 ﻿@page
 @model CompletedSurvey
 
+
 <div class="row">
     <div class="col">
         <div id="surveyContainer"></div>
@@ -10,7 +11,9 @@
 @section Scripts
 {
     <script src="https://surveyjs.azureedge.net/1.5.8/survey.jquery.min.js"></script>
-    <script>var surveyJSON = { title: "Tell us, what technologies do you use?", questions: [
+    <script>
+        var surveyJSON = {
+            title: "Tell us, what technologies do you use?", questions: [
             { type: "radiogroup", choices: [ "Yes", "No" ], isRequired: true, name: "frameworkUsing",title: "Do you use any front-end framework like Bootstrap?" },
             { type: "checkbox", choices: ["Bootstrap","Foundation"], hasOther: true, isRequired: true, name: "framework", title: "What front-end framework do you use?", visibleIf: "{frameworkUsing} = 'Yes'" },
             { type: "radiogroup", choices: ["Yes","No"],isRequired: true, name: "mvvmUsing", title: "Do you use any MVVM framework?" },
@@ -21,6 +24,22 @@
         Survey.StylesManager.applyTheme("bootstrap");
         var survey = new Survey.Model(surveyJSON);
         $("#surveyContainer").Survey({
-            model:survey
-        });</script>
+            model: survey,
+            onComplete: saveSurvey
+        });
+
+        function saveSurvey(survey) {
+            $.ajax({
+                type: "POST",
+                url: '/CompletedSurvey/OnPostSaveAsync',
+                data: {
+                    data: JSON.stringify(survey.data)
+                },
+            })
+                .done(function () {
+                    window.location.href = '/';
+                })
+        };
+
+    </script>
 }
