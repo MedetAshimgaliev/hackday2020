@@ -24,5 +24,6 @@
   <ItemGroup>
     <Folder Include="Views\Course\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="Views\CompletedSurvey\" />
   </ItemGroup>
 </Project>
