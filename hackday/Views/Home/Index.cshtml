@@ -5,23 +5,33 @@
     ViewData["Title"] = "Home Page";
 }
 
-    
 
 
     @if (SignInManager.IsSignedIn(User))
     {
         <div class="text-center">
-            <h1>Her tam plaval</h1>
+            <h1 class="text-6xl">Her tam plaval</h1>
         </div>
     }
     else
     {
         <main role="main" class="inner cover">
-            <h1>Hackday-2020</h1>
-            <p class="lead">TExt</p>
-            <p class="lead">
-                <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
-            </p>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="mt-5">OutTalent</h1>
+                        <br />
+                        <p class="font-weight-light text-justify" style="width: 400px;">This is a program to help parents with preschool children with Autism Spectrum Disorders (ASD) who have recently learned about their baby’s diagnosis. The main task of the EarlyBird program is precisely to help parents better understand their child and help him effectively.</p>
+                        <p class="lead">
+                            <a href="/Identity/Account/Login" class="btn btn-lg btn-primary">Let's start</a>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <img class="rounded mt-5" style="width: 600px;" src="https://thumb.tildacdn.com/tild3066-6164-4234-b539-356437376663/-/format/webp/1177729552-1280x600_.jpg" />
+                    </div>
+                </div>
+            </div>
+
         </main>
     }
 
