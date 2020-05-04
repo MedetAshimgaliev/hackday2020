@@ -19,6 +19,8 @@ namespace hackday.Data
         {
         }
 
+        public DbSet<CompletedSurvey> CompletedSurveys { get; set; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=app.db"));

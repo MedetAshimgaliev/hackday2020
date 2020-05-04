@@ -9,29 +9,67 @@
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
 
+<div id="lessonList"></div>
+
+
 <script src="https://code.jquery.com/jquery-2.2.4.js"
         integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
         crossorigin="anonymous"></script>
 
-<script>    
-    $(function () {  
-        $("#addLesson").click(function () {  
-            var $buttonClicked = $(this);  
-            var id = @Model.CourseId;  
-            //var options = { "backdrop": "static", keyboard: true };  
-            $.ajax({  
+
+<script>
+    var id = @Model.CourseId;
+
+    function loadLessons() {
+        $.ajax({
+            type: 'GET',
+            url: '/Dashboard/GetLessons?courseId=' + id,
+            success: function (data) {
+                //$('#lessonList').append(data);
+                console.log(data);
+                data.forEach(function (app, index) {
+                    $("#lessonList").append('<div class="card" style="width: 18rem;">' +
+                        '<img src = "..." class="card-img-top" alt = "..." >' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title">' + app.title + '</h5>' +
+                        '<p class="card-text">' + app.description + '</p>' +
+                        '<button class="btn btn-primary" onclick="openLesson(' + app.lessonId + ')">Learn more</button>' +
+                        '</div>' +
+                        '</div >'
+                    );
+                });
+            }
+        });
+    };
+
+    function openLesson(id) {
+        location.href = '/Dashboard/LessonDetails?lessonId=' + id;
+    };
+
+    $(function () {
+        $("#addLesson").click(function () {
+            var $buttonClicked = $(this);
+            //var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
                 type: "GET",
-                url: '/Dashboard/AddLesson?id=' + id,  
-                success: function (data) {  
-                    debugger;  
-                    $('#exampleModalCenter').html(data);  
-                    //$('#exampleModalCenter').modal(options);  
-                    $('#exampleModalCenter').modal('show');                    
-                },  
-                error: function () {  
-                    alert("Dynamic content load failed.");  
-                }  
-            });  
-        });  
+                url: '/Dashboard/AddLesson?id=' + id,
+                success: function (data) {
+                    debugger;
+                    $('#exampleModalCenter').html(data);
+                    //$('#exampleModalCenter').modal(options);
+                    $('#exampleModalCenter').modal('show');
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        loadLessons();
+
+        
     });
+
+
+    
 </script>

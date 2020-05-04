@@ -33,6 +33,6 @@ namespace hackday.Models
         public DateTime CreatedDate { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime DeletedDate { get; set; }
+        public Nullable<DateTime> DeletedDate { get; set; }
     }
 }
